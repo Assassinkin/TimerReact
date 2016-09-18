@@ -10,14 +10,19 @@ var Clock = React.createClass({
 
   formatSeconds: function(totalSeconds){
     var seconds = totalSeconds % 60;
-    var minutes = Math.floor(totalSeconds/60);
+    var totalMinutes = Math.floor(totalSeconds/60);
+    var minutes = totalMinutes % 60;
+    var hours = Math.floor(totalMinutes/60);
     if (seconds < 10){
       seconds = '0' + seconds;
     }
     if (minutes < 10 ){
       minutes = '0'+ minutes;
     }
-    return minutes + ':' + seconds;
+    if (hours < 10 ){
+      hours = '0'+ hours;
+    }
+    return hours + ':' + minutes + ':' + seconds;
   },
   render: function(){
     var {totalSeconds} = this.props;
