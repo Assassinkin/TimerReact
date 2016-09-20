@@ -1,4 +1,4 @@
-var React = require('react')
+var React = require('react');
 var ReactDOM = require('react-dom');
 var expect = require('expect');
 var $ = require('jQuery');
@@ -6,27 +6,15 @@ var TestUtils = require('react-addons-test-utils');
 
 var Timer = require('Timer');
 
-describe('Timer', ()=>{
-  it('should exist', (done)=> {
+describe('Timer', () => {
+  it('should exist', () => {
     expect(Timer).toExist();
-    done();
   });
-  it('should pause timer on paused stataus', (done)=>{
-    var timer = TestUtils.renderIntoDocument(<Timer/>);
-    timer.setState({count: 10});
-    timer.hundleStatusChange('started');
-    timer.hundleStatusChange('paused');
 
-    setTimeout(() => {
-    expect(timer.state.timerStatus).toBe('paused');
-    expect(timer.state.count).toBe(10);
-    done();
-    }, 1001);
-  });
-  it('should start timer on started stataus', (done) => {
+  it('should start timer on started status', (done) => {
     var timer = TestUtils.renderIntoDocument(<Timer/>);
 
-    timer.hundleStatusChange('started');
+    timer.handleStatusChange('started');
     expect(timer.state.count).toBe(0);
 
     setTimeout(() => {
@@ -36,16 +24,31 @@ describe('Timer', ()=>{
     }, 1001);
   });
 
-  it('should clear count on stopped stataus', (done) => {
+  it('should pause timer on paused status', (done) => {
     var timer = TestUtils.renderIntoDocument(<Timer/>);
+
     timer.setState({count: 10});
-    timer.hundleStatusChange('started');
-    timer.hundleStatusChange('stopped');
+    timer.handleStatusChange('started');
+    timer.handleStatusChange('paused');
 
     setTimeout(() => {
-    expect(timer.state.timerStatus).toBe('stopped');
-    expect(timer.state.count).toBe(0);
-    done();
+      expect(timer.state.timerStatus).toBe('paused');
+      expect(timer.state.count).toBe(10);
+      done();
+    }, 1001);
+  });
+
+  it('should clear count on stopped status', (done) => {
+    var timer = TestUtils.renderIntoDocument(<Timer/>);
+
+    timer.setState({count: 10});
+    timer.handleStatusChange('started');
+    timer.handleStatusChange('stopped');
+
+    setTimeout(() => {
+      expect(timer.state.timerStatus).toBe('stopped');
+      expect(timer.state.count).toBe(0);
+      done();
     }, 1001);
   });
 });
